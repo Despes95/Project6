@@ -2,8 +2,6 @@
 
 ## Procédure  d'installation Pour le Projet 6
 
-
-
 Installer **CLi Angular**, pour pouvoir faire tourner le serveur de développement sur lequel sera exécuté le code du front-end. 
 `npm install -g @angular/cli`
 
@@ -75,6 +73,18 @@ noCache définit des en-têtes Cache-Control et Pragma pour désactiver la mise 
 - frameguard définit l’en-tête X-Frame-Options pour fournir une protection clickjacking.
 xssFilter définit X-XSS-Protection afin d’activer le filtre de script intersites (XSS) dans les navigateurs Web les plus récents.  
 `npm install --save helmet`  
+
+Installation de **cors** sert à alléger la sécurité en autorisant les requêtes vers d’autres domaines. C’est pourquoi il est important de bien savoir le configurer pour ne pas autoriser tout et n’importe quoi.
+C’est le site qui indique si le navigateur a le droit ou pas d’échanger avec lui via l’entête Access-Control-Allow-Origin. Il existe un ensemble d’entêtes pour configurer plus finement les échanges avec le navigateur.
+`npm install cors --save`
+
+Installation de **dotenv** pour separer les id et password du mongoDb de app.js pour des questions de securité  
+Ce fichier ne doit pas être versionné, il faut donc l’ajouter à .gitignore.  
+`npm install dotenv`  
+
+Installation de **express-session** qui va stocker les donees du session sur le server. il ne sauvegarde que l’ID session dans le cookie lui-même, mais pas les données de session. Par défaut, il utilise le stockage en mémoire et n’est pas conçu pour un environnement de production.  
+`npm install --save express-session`
+
 
 # Code HTTP
 
@@ -209,31 +219,56 @@ ne pas faire npm audit fix
 Questions mentor :
 
 - Script pour lancer les npm a l'ouverture du dossier via vscode
-- Comment recuperer mot de passe/oublier
+- Comment test notre securiter en localhost ? 
 - Faut bien faire 2 user : 1 admin et un user c ca ? 
-- express-session ou cookie-session ?
+- Pourquoi dans model on est obliger de mettre default:0
+
+# Securisation Backend
+
+## mis en Place
+
+helmet : ok  
+https://connect.ed-diamond.com/MISC/MISC-101/  Vos-entetes-HTTPS-avec-HELMET  
+
+cors : ok  
+https://connect.ed-diamond.com/MISC/MISC-101/  Vos-entetes-HTTPS-avec-HELMET  
+
+.Dotenv: ok  
+https://www.youtube.com/watch?v=x-SdEjcRPEw&ab_channel=yoursTRULY  
+https://dev.to/aritik/connecting-to-mongodb-using-mongoose-3akh  
+
+express-session: ok  set-cookie=> ok
+https://www.npmjs.com/package/express-session  
+https://github.com/expressjs/session  
 
 
- # RAF 
 
-helmet : ok
-https://connect.ed-diamond.com/MISC/MISC-101/Vos-entetes-HTTPS-avec-HELMET
+ ## RAF 
+**npm audit fix** pour fix les vulnerabilités.
 
-
-Like : 
+**Like** : 
 https://docs.mongodb.com/manual/reference/operator/update/
-router.post('/:id/like');
+'http://localhost:3000/api/sauces/' + id + '/like',
+post( 'http://localhost:3000/api/sauces/:id/like');
+likeSauce
+default: [] faut enregistrez/delete l'idUser dans un tableau
+update + rajout likes de 1 
 
 Securité : 
+C
 http://expressjs.com/fr/advanced/best-practice-security.html
 https://stackoverflow.com/questions/52456065/how-to-format-and-validate-email-node-js
+https://www.hackinprovence.fr/comment-securiser-votre-backend-nodejs/
+https://geekflare.com/how-to-secure-nodejs/
+
+npm install hpp --save
+https://www.freecodecamp.org/news/express-js-security-tips/
 
 
-dotenv
-https://www.armandphilippot.com/dotenv-variables-environnement/
-https://www.npmjs.com/package/dotenv
-https://www.youtube.com/watch?v=hpY72mhpLLk
-
+express session
+https://www.tutorialspoint.com/expressjs/expressjs_sessions.htm
+https://www.npmjs.com/package/express-session
+https://expressjs.com/fr/advanced/best-practice-security.html
 
 Express Validator
 https://flaviocopes.com/express-validate-input/

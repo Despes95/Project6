@@ -3,14 +3,21 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 const helmet = require('helmet');
+const cors = require("./middleware/cors");
+const dotenv =require('dotenv').config();
+const expressSession =require('../backend/middleware/express-session')
+const limiter = require("./middleware/express-limit");
 
+//console.log(dotenv.parsed);
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 
-mongoose.connect('mongodb+srv://despes:SiemenS@cluster0.gnegp.mongodb.net/<dbname>?retryWrites=true&w=majority',
+mongoose.connect(process.env.MONGODB_URI,
     {
+        user: process.env.DB_USER,
+        pass: process.env.DB_PASS,
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
@@ -19,15 +26,12 @@ mongoose.connect('mongodb+srv://despes:SiemenS@cluster0.gnegp.mongodb.net/<dbnam
 
 const app = express();
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-    next();
-});
+app.use(cors);
 
 app.use(bodyParser.json());
-app.use(helmet())
+app.use(helmet());
+app.use(expressSession);
+app.use("/api/auth", limiter);
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
