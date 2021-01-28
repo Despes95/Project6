@@ -4,10 +4,10 @@ const mongoose = require('mongoose');
 const path = require('path');
 const helmet = require('helmet');
 const cors = require("./middleware/cors");
-const dotenv =require('dotenv').config();
+require('dotenv').config();
 const expressSession =require('../backend/middleware/express-session')
 const limiter = require("./middleware/express-limit");
-
+const MaskData = require('maskdata');
 //console.log(dotenv.parsed);
 
 const sauceRoutes = require('./routes/sauce');
