@@ -5,7 +5,7 @@ const path = require('path');
 const helmet = require('helmet');
 const cors = require("./middleware/cors");
 require('dotenv').config();
-const expressSession =require('../backend/middleware/express-session')
+const expressSession =require('./middleware/express-session')
 const limiter = require("./middleware/express-limit");
 const MaskData = require('maskdata');
 //console.log(dotenv.parsed);
